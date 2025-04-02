@@ -9,9 +9,10 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QComboBox, QVBoxLayout, QWidget, QCompleter, QMessageBox
+from PyQt5.QtCore import Qt
 import pytz
 from datetime import datetime
-from PyQt5.QtWidgets import QMessageBox
 import logo_rc
 import settings_rc
 
@@ -20,8 +21,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(935, 704)
-        MainWindow.setStyleSheet("background-color: rgb(0, 85, 0);\n"
-"background-color: rgb(0, 0, 0);\n"
+        MainWindow.setStyleSheet("background-color: black;\n"
 "\n"
 "")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -87,6 +87,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.comboBox_3 = QtWidgets.QComboBox(self.verticalLayoutWidget_2)
+        self.comboBox_3.setEditable(True) # Permet de taper dans la ComboBox
         self.comboBox_3.setAutoFillBackground(False)
         self.comboBox_3.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.comboBox_3.setObjectName("comboBox_3")
@@ -112,6 +113,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.comboBox_4 = QtWidgets.QComboBox(self.verticalLayoutWidget_4)
+        self.comboBox_4.setEditable(True) # Permet de taper dans la ComboBox
         self.comboBox_4.setAutoFillBackground(False)
         self.comboBox_4.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.comboBox_4.setObjectName("comboBox_4")
@@ -167,6 +169,14 @@ class Ui_MainWindow(object):
         self.label_18.setText(_translate("MainWindow", "Heure de fin :"))
         self.comboBox_3.addItems(timezones)
         self.comboBox_4.addItems(timezones)
+        completer = QCompleter(timezones, self.comboBox_3)
+        completer.setCaseSensitivity(False)  # Ignorer la casse
+        completer.setFilterMode(Qt.MatchContains)  # Recherche même si le texte est au milieu
+        self.comboBox_3.setCompleter(completer)
+        completer_2 = QCompleter(timezones, self.comboBox_4)
+        completer_2.setCaseSensitivity(False)  # Ignorer la casse
+        completer_2.setFilterMode(Qt.MatchContains)  # Recherche même si le texte est au milieu
+        self.comboBox_4.setCompleter(completer_2)
         self.label_19.setText(_translate("MainWindow", "Pays :"))
         self.label_20.setText(_translate("MainWindow", "Heure de début :"))
         self.label_21.setText(_translate("MainWindow", "Heure de fin :"))
@@ -208,7 +218,9 @@ class Ui_MainWindow(object):
         fin_commune = min(fin1_utc, fin2_utc)
 
         # Vérification s'il y a un créneau valide
-        if debut_commum < fin_commune:
+        if fin1_utc < debut1_utc or fin2_utc < debut2_utc:
+             message = "❌ Erreur ! L'heure de début est avant celle de fin !"
+        elif debut_commum < fin_commune:
                 # Conversion en heure locale pour les deux pays
                 debut_final1 = debut_commum.astimezone(tz1).strftime("%H:%M")
                 fin_final1 = fin_commune.astimezone(tz1).strftime("%H:%M")
