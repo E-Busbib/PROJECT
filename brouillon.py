@@ -35,3 +35,13 @@ if __name__ == "__main__":
     main_win = MainWindow()
     main_win.show()
     sys.exit(app.exec_())
+
+
+
+
+        try:
+            with open("evenement.ics", "w", encoding="utf-8") as f:
+                f.writelines(c)
+            QtWidgets.QMessageBox.information(self, "Succès", "Événement ICS enregistré sous 'evenement.ics'.")
+        except Exception as ex:
+            QtWidgets.QMessageBox.critical(self, "Erreur", f"Impossible d'enregistrer l'événement : {ex}")

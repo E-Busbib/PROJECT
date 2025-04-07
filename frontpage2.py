@@ -248,12 +248,8 @@ class Ui_MainWindow(object):
         QMessageBox.information(None, "Résultat", message)
 
         # ➕ Enregistre maintenant dans l'historique :
-        debut1_txt = self.timeEdit_8.time().toString("HH:mm")
-        fin1_txt = self.timeEdit_7.time().toString("HH:mm")
-        debut2_txt = self.timeEdit_9.time().toString("HH:mm")
-        fin2_txt = self.timeEdit_10.time().toString("HH:mm")
         
-        enregistrer_historique(pays1, debut1_txt, fin1_txt, pays2, debut2_txt, fin2_txt, debut_final1, fin_final1, debut_final2, fin_final2)
+        enregistrer_historique(pays1, pays2, debut_final1, fin_final1, debut_final2, fin_final2)
 
 
 
@@ -263,8 +259,8 @@ class Ui_MainWindow(object):
     
 
     
-def enregistrer_historique(fuseau1, debut1, fin1, fuseau2, debut2, fin2, debutfinal1, finfinal1, debutfinal2, finfinal2):
-        ligne = f"{fuseau1}: ({debut1} - {fin1}) ⇄ ({debutfinal1} - {finfinal1}) | {fuseau2}: ({debut2} - {fin2}) ⇄ ({debutfinal2} - {finfinal2})"
+def enregistrer_historique(fuseau1, fuseau2, debutfinal1, finfinal1, debutfinal2, finfinal2):
+        ligne = f"{fuseau1}: {debutfinal1} - {finfinal1}        ⇄       {fuseau2}: {debutfinal2} - {finfinal2}"
         with open("historique.txt", "a", encoding="utf-8") as f:
                 f.write(ligne + "\n")
 
