@@ -10,11 +10,12 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QComboBox, QVBoxLayout, QWidget, QCompleter, QMessageBox
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTime
 import pytz
 from datetime import datetime
 import logo_rc
 import settings_rc
+from historique import HistoryWindow
 
 
 class Ui_MainWindow(object):
@@ -54,6 +55,7 @@ class Ui_MainWindow(object):
         self.pushButton_2.setIcon(icon)
         self.pushButton_2.setIconSize(QtCore.QSize(50, 40))
         self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.clicked.connect(self.ouvrir_historique)
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(630, 290, 181, 31))
         self.label_5.setStyleSheet("color: rgb(255, 111, 97);\n"
@@ -95,10 +97,12 @@ class Ui_MainWindow(object):
         self.timeEdit_8 = QtWidgets.QTimeEdit(self.verticalLayoutWidget_2)
         self.timeEdit_8.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.timeEdit_8.setObjectName("timeEdit_8")
+        self.timeEdit_8.setTime(QTime(8, 00))
         self.verticalLayout_4.addWidget(self.timeEdit_8)
         self.timeEdit_7 = QtWidgets.QTimeEdit(self.verticalLayoutWidget_2)
         self.timeEdit_7.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.timeEdit_7.setObjectName("timeEdit_7")
+        self.timeEdit_7.setTime(QTime(19, 00))
         self.verticalLayout_4.addWidget(self.timeEdit_7)
         self.verticalLayoutWidget_3 = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(1051, -86, 160, 80))
@@ -121,10 +125,12 @@ class Ui_MainWindow(object):
         self.timeEdit_9 = QtWidgets.QTimeEdit(self.verticalLayoutWidget_4)
         self.timeEdit_9.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.timeEdit_9.setObjectName("timeEdit_9")
+        self.timeEdit_9.setTime(QTime(8, 00))
         self.verticalLayout_6.addWidget(self.timeEdit_9)
         self.timeEdit_10 = QtWidgets.QTimeEdit(self.verticalLayoutWidget_4)
         self.timeEdit_10.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.timeEdit_10.setObjectName("timeEdit_10")
+        self.timeEdit_10.setTime(QTime(19, 00))
         self.verticalLayout_6.addWidget(self.timeEdit_10)
         self.verticalLayoutWidget_5 = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget_5.setGeometry(QtCore.QRect(560, 330, 111, 80))
@@ -169,6 +175,8 @@ class Ui_MainWindow(object):
         self.label_18.setText(_translate("MainWindow", "Heure de fin :"))
         self.comboBox_3.addItems(timezones)
         self.comboBox_4.addItems(timezones)
+        self.comboBox_3.setCurrentText("Europe/Paris")
+        self.comboBox_4.setCurrentText("America/New_York")
         completer = QCompleter(timezones, self.comboBox_3)
         completer.setCaseSensitivity(False)  # Ignorer la casse
         completer.setFilterMode(Qt.MatchContains)  # Recherche même si le texte est au milieu
@@ -182,8 +190,8 @@ class Ui_MainWindow(object):
         self.label_21.setText(_translate("MainWindow", "Heure de fin :"))
         self.actionHistorique.setText(_translate("MainWindow", "Historique"))
 
-
-  
+    
+    
 
     def calculer_plage_horaire(self):
         # Récupération des valeurs
@@ -234,8 +242,31 @@ class Ui_MainWindow(object):
         else:
                 message = "❌ Aucune plage horaire compatible trouvée."
 
+        
+
         # Affichage du résultat
         QMessageBox.information(None, "Résultat", message)
+
+        # ➕ Enregistre maintenant dans l'historique :
+        debut1_txt = self.timeEdit_8.time().toString("HH:mm")
+        fin1_txt = self.timeEdit_7.time().toString("HH:mm")
+        debut2_txt = self.timeEdit_9.time().toString("HH:mm")
+        fin2_txt = self.timeEdit_10.time().toString("HH:mm")
+        
+        enregistrer_historique(pays1, debut1_txt, fin1_txt, pays2, debut2_txt, fin2_txt, debut_final1, fin_final1, debut_final2, fin_final2)
+
+
+
+    def ouvrir_historique(self):
+        self.fenetre_historique = HistoryWindow()
+        self.fenetre_historique.show()
+    
+
+    
+def enregistrer_historique(fuseau1, debut1, fin1, fuseau2, debut2, fin2, debutfinal1, finfinal1, debutfinal2, finfinal2):
+        ligne = f"{fuseau1}: ({debut1} - {fin1}) ⇄ ({debutfinal1} - {finfinal1}) | {fuseau2}: ({debut2} - {fin2}) ⇄ ({debutfinal2} - {finfinal2})"
+        with open("historique.txt", "a", encoding="utf-8") as f:
+                f.write(ligne + "\n")
 
 
 
@@ -247,3 +278,5 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+
+

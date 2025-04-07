@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_HistoryWindow(object):
     def setupUi(self, HistoryWindow):
         HistoryWindow.setObjectName("HistoryWindow")
@@ -15,14 +16,19 @@ class Ui_HistoryWindow(object):
         self.listWidget.setObjectName("listWidget")
         
         self.loadButton = QtWidgets.QPushButton(self.centralwidget)
-        self.loadButton.setGeometry(QtCore.QRect(50, 320, 200, 40))
+        self.loadButton.setGeometry(QtCore.QRect(50, 320, 150, 40))
         self.loadButton.setStyleSheet("background-color: rgb(0, 170, 255); font: 75 14pt 'Arial';")
         self.loadButton.setObjectName("loadButton")
         
         self.backButton = QtWidgets.QPushButton(self.centralwidget)
-        self.backButton.setGeometry(QtCore.QRect(350, 320, 200, 40))
+        self.backButton.setGeometry(QtCore.QRect(400, 320, 150, 40))
         self.backButton.setStyleSheet("background-color: rgb(255, 0, 0); font: 75 14pt 'Arial';")
         self.backButton.setObjectName("backButton")
+
+        self.deleteButton = QtWidgets.QPushButton(self.centralwidget)
+        self.deleteButton.setGeometry(QtCore.QRect(225, 320, 150, 40))
+        self.deleteButton.setStyleSheet("background-color: rgb(255, 170, 0); font: 75 14pt 'Arial';")
+        self.deleteButton.setObjectName("deleteButton")
         
         HistoryWindow.setCentralWidget(self.centralwidget)
         self.retranslateUi(HistoryWindow)
@@ -31,14 +37,57 @@ class Ui_HistoryWindow(object):
     def retranslateUi(self, HistoryWindow):
         _translate = QtCore.QCoreApplication.translate
         HistoryWindow.setWindowTitle(_translate("HistoryWindow", "Historique des plages horaires"))
-        self.loadButton.setText(_translate("HistoryWindow", "Charger la sélection"))
+        self.loadButton.setText(_translate("HistoryWindow", "Exporter en ICS"))
         self.backButton.setText(_translate("HistoryWindow", "Retour"))
+        self.deleteButton.setText(_translate("HistoryWindow", "Supprimer"))
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    HistoryWindow = QtWidgets.QMainWindow()
-    ui = Ui_HistoryWindow()
-    ui.setupUi(HistoryWindow)
-    HistoryWindow.show()
-    sys.exit(app.exec_())
+
+
+class HistoryWindow(QtWidgets.QMainWindow):
+
+          
+    def charger_historique(self):
+        try:
+            with open("historique.txt", "r", encoding="utf-8") as f:
+                lignes = f.readlines()
+                self.ui.listWidget.clear()
+                for ligne in lignes:
+                    self.ui.listWidget.addItem(ligne.strip())
+        except FileNotFoundError:
+            pass
+
+
+    def supprimer_ligne_selectionnee(self):
+        item = self.ui.listWidget.currentItem()
+        if item:
+            texte_a_supprimer = item.text()
+
+            # Supprimer de l'affichage
+            self.ui.listWidget.takeItem(self.ui.listWidget.row(item))
+
+            # Supprimer du fichier
+            try:
+                with open("historique.txt", "r", encoding="utf-8") as fichier:
+                    lignes = fichier.readlines()
+                with open("historique.txt", "w", encoding="utf-8") as fichier:
+                    for ligne in lignes:
+                        if ligne.strip() != texte_a_supprimer.strip():
+                            fichier.write(ligne)
+            except FileNotFoundError:
+                print("Fichier historique.txt introuvable.")
+
+
+
+
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_HistoryWindow()
+        self.ui.setupUi(self)
+
+        self.charger_historique()
+
+        # (optionnel) Exemple de connexion du bouton "Retour"
+        self.ui.backButton.clicked.connect(self.close)
+
+        self.ui.deleteButton.clicked.connect(self.supprimer_ligne_selectionnee)
+
