@@ -22,9 +22,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(935, 704)
-        MainWindow.setStyleSheet("background-color: black;\n"
-"\n"
-"")
+        MainWindow.setStyleSheet("background-color: rgb(250, 243, 224);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
@@ -43,12 +41,12 @@ class Ui_MainWindow(object):
         self.pushButton.clicked.connect(self.calculer_plage_horaire)
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(140, 290, 181, 31))
-        self.label_2.setStyleSheet("color: rgb(255, 111, 97);\n"
+        self.label_2.setStyleSheet("color: rgb(255, 0, 0);\n"
 "font: 75 italic 30pt \"Arial\";")
         self.label_2.setObjectName("label_2")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(0, 0, 51, 41))
-        self.pushButton_2.setStyleSheet("background-color: rgb(156, 156, 156);")
+        self.pushButton_2.setStyleSheet("background-color: rgb(250, 243, 224);")
         self.pushButton_2.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/1/png-clipart-blue-and-green-logo-computer-icons-history-iconfinder-clock-event-history-schedule-time-icon-miscellaneous-text.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
@@ -58,7 +56,7 @@ class Ui_MainWindow(object):
         self.pushButton_2.clicked.connect(self.ouvrir_historique)
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(630, 290, 181, 31))
-        self.label_5.setStyleSheet("color: rgb(255, 111, 97);\n"
+        self.label_5.setStyleSheet("color: rgb(255, 0, 0);\n"
 "font: 75 italic 30pt \"Arial\";")
         self.label_5.setObjectName("label_5")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -68,17 +66,17 @@ class Ui_MainWindow(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_15 = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label_15.setStyleSheet("color: rgb(255, 255, 0);\n"
+        self.label_15.setStyleSheet("color: rgb(0, 0, 255);\n"
 "font: 75 10pt \"MS Shell Dlg 2\";")
         self.label_15.setObjectName("label_15")
         self.verticalLayout.addWidget(self.label_15)
         self.label_17 = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label_17.setStyleSheet("color: rgb(255, 255, 0);\n"
+        self.label_17.setStyleSheet("color: rgb(0, 0, 255);\n"
 "font: 75 10pt \"MS Shell Dlg 2\";")
         self.label_17.setObjectName("label_17")
         self.verticalLayout.addWidget(self.label_17)
         self.label_18 = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label_18.setStyleSheet("color: rgb(255, 255, 0);\n"
+        self.label_18.setStyleSheet("color: rgb(0, 0, 255);\n"
 "font: 75 10pt \"MS Shell Dlg 2\";")
         self.label_18.setObjectName("label_18")
         self.verticalLayout.addWidget(self.label_18)
@@ -139,17 +137,17 @@ class Ui_MainWindow(object):
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
         self.label_19 = QtWidgets.QLabel(self.verticalLayoutWidget_5)
-        self.label_19.setStyleSheet("color: rgb(255, 255, 0);\n"
+        self.label_19.setStyleSheet("color: rgb(0, 0, 255);\n"
 "font: 75 10pt \"MS Shell Dlg 2\";")
         self.label_19.setObjectName("label_19")
         self.verticalLayout_7.addWidget(self.label_19)
         self.label_20 = QtWidgets.QLabel(self.verticalLayoutWidget_5)
-        self.label_20.setStyleSheet("color: rgb(255, 255, 0);\n"
+        self.label_20.setStyleSheet("color: rgb(0, 0, 255);\n"
 "font: 75 10pt \"MS Shell Dlg 2\";")
         self.label_20.setObjectName("label_20")
         self.verticalLayout_7.addWidget(self.label_20)
         self.label_21 = QtWidgets.QLabel(self.verticalLayoutWidget_5)
-        self.label_21.setStyleSheet("color: rgb(255, 255, 0);\n"
+        self.label_21.setStyleSheet("color: rgb(0, 0, 255);\n"
 "font: 75 10pt \"MS Shell Dlg 2\";")
         self.label_21.setObjectName("label_21")
         self.verticalLayout_7.addWidget(self.label_21)
@@ -272,6 +270,7 @@ if __name__ == "__main__":
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
+    MainWindow.setFixedSize(MainWindow.size())
     MainWindow.show()
     sys.exit(app.exec_())
 

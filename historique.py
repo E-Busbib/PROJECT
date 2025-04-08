@@ -5,8 +5,8 @@ from datetime import datetime
 class Ui_HistoryWindow(object):
     def setupUi(self, HistoryWindow):
         HistoryWindow.setObjectName("HistoryWindow")
-        HistoryWindow.resize(600, 400)
-        HistoryWindow.setStyleSheet("background-color: rgb(255, 255, 255);")
+        HistoryWindow.setFixedSize(600, 400)
+        HistoryWindow.setStyleSheet("background-color: rgb(250, 243, 224);")
         
         self.centralwidget = QtWidgets.QWidget(HistoryWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -97,11 +97,16 @@ class HistoryWindow(QtWidgets.QMainWindow):
             return
 
         
+
+        
+
+
         # Demander le nom de l'événement
         nom_evenement, ok = QtWidgets.QInputDialog.getText(self, "Nom de l'événement", 
             "Entrez un nom pour votre événement :")
         if not ok or not nom_evenement.strip():
             nom_evenement = "Rendez-vous"
+        
 
         # Demander à l'utilisateur dans quel fuseau il se trouve
         fuseau_choisi, ok = QtWidgets.QInputDialog.getItem(self, "Fuseau horaire", 
