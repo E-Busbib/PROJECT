@@ -6,7 +6,7 @@ class Ui_HistoryWindow(object):
     def setupUi(self, HistoryWindow):
         HistoryWindow.setObjectName("HistoryWindow")
         HistoryWindow.setFixedSize(600, 400)
-        HistoryWindow.setStyleSheet("background-color: rgb(250, 243, 224);")
+        HistoryWindow.setStyleSheet("background-color: white;")
         
         self.centralwidget = QtWidgets.QWidget(HistoryWindow)
         self.centralwidget.setObjectName("centralwidget")
