@@ -206,7 +206,7 @@ class HistoryWindow(QtWidgets.QMainWindow):
 
         self.charger_historique()
 
-        # (optionnel) Exemple de connexion du bouton "Retour"
+        
         self.ui.backButton.clicked.connect(self.close)
 
         self.ui.deleteButton.clicked.connect(self.supprimer_ligne_selectionnee)
